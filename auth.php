@@ -149,6 +149,8 @@ if ($action === 'login') {
             echo json_encode(['success' => false, 'message' => 'Invalid credentials']);
         }
     } catch (PDOException $e) {
+        // Log the actual database error server-side for debugging (not shown to users)
+        error_log('AUTH PDO ERROR: ' . $e->getMessage());
         echo json_encode(['success' => false, 'message' => 'Database error']);
     }
     exit();
