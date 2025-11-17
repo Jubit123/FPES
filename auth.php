@@ -174,10 +174,10 @@ if ($action === 'logout') {
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
         // AJAX request - send JSON response
         header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'redirect' => '/FPES/index.php']);
+        echo json_encode(['success' => true, 'redirect' => 'index.php']);
     } else {
         // Regular request - redirect directly
-        header('Location: /FPES/index.php');
+        header('Location: index.php');
     }
     exit();
 }
