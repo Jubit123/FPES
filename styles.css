@@ -70,10 +70,12 @@ h1, h2 { color: var(--dark-color); margin-bottom: 1rem; font-weight: 600; }
   min-height: 100vh;
   min-height: 100svh; /* mobile safe */
   text-align: center;
-  /* Dark forest theme background */
-  background: radial-gradient(1200px 600px at 20% 10%, rgba(16,185,129,0.12) 0%, rgba(16,185,129,0.04) 35%, transparent 70%),
-              radial-gradient(1000px 500px at 80% 90%, rgba(16,185,129,0.10) 0%, rgba(16,185,129,0.03) 40%, transparent 70%),
-              linear-gradient(135deg, #062e1a 0%, #0b3d22 50%, #082c1a 100%);
+  /* Blue–Red–Yellow gradient background */
+  background:
+    radial-gradient(1200px 600px at 15% 15%, rgba(59,130,246,0.35) 0%, rgba(59,130,246,0.10) 40%, transparent 70%),
+    radial-gradient(1000px 500px at 85% 85%, rgba(239,68,68,0.35) 0%, rgba(239,68,68,0.10) 40%, transparent 70%),
+    radial-gradient(900px 450px at 50% 100%, rgba(234,179,8,0.35) 0%, rgba(234,179,8,0.10) 40%, transparent 75%),
+    linear-gradient(135deg, #020617 0%, #0b1120 45%, #1e293b 100%);
   padding: 24px;
 }
 .app-title { font-size: 1.25rem; color:#475569; opacity: .9; }
