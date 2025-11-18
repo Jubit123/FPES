@@ -164,71 +164,24 @@ function logout() {
 
     if (evaluationForm) {
         evaluationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const submitBtn = this.querySelector('.submit-btn');
             // Ensure hidden fields are populated based on current selection
             if (enrollmentSelect && enrollmentSelect.value) {
                 const opt = enrollmentSelect.options[enrollmentSelect.selectedIndex];
-                formData.set('faculty_id', opt.getAttribute('data-faculty-id') || '');
-                formData.set('subject', opt.getAttribute('data-subject') || '');
+                hiddenFacultyId.value = opt.getAttribute('data-faculty-id') || '';
+                hiddenSubject.value = opt.getAttribute('data-subject') || '';
             }
-            // Guard submit if mapping not set
-            if (!formData.get('faculty_id') || !formData.get('subject')) {
+
+            if (!hiddenFacultyId.value || !hiddenSubject.value) {
+                e.preventDefault();
+                const existingMessages = document.querySelectorAll('.error-message');
+                existingMessages.forEach(msg => msg.remove());
                 const msg = document.createElement('div');
                 msg.className = 'error-message';
                 msg.textContent = 'Please select a subject and faculty.';
                 evaluationForm.insertBefore(msg, evaluationForm.firstChild);
                 return;
             }
-            
-            // Disable submit button
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
-            
-            // Remove any existing messages
-            const existingMessages = document.querySelectorAll('.success-message, .error-message');
-            existingMessages.forEach(msg => msg.remove());
-            
-            fetch('submit_evaluation.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                // If server error or non-JSON response on Render, surface a clear message
-                if (!response.ok) {
-                    throw new Error('Server returned status ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    // Queue flash message and navigate to My Evaluations after reload
-                    sessionStorage.setItem('flashMessage', data.message || 'Evaluation submitted successfully.');
-                    sessionStorage.setItem('flashType', 'success');
-                    sessionStorage.setItem('flashSection', 'history');
-                    // Refresh the page to update the My Evaluations list
-                    location.reload();
-                    return;
-                }
-
-                // For errors, show inline without reload
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'error-message';
-                messageDiv.textContent = data.message || 'An error occurred. Please try again.';
-                evaluationForm.insertBefore(messageDiv, evaluationForm.firstChild);
-            })
-            .catch(error => {
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'error-message';
-                errorDiv.textContent = 'Unable to submit evaluation: ' + (error.message || 'Please try again.');
-                evaluationForm.insertBefore(errorDiv, evaluationForm.firstChild);
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Evaluation';
-            });
+            // otherwise allow normal POST to submit_evaluation.php
         });
     }
     
