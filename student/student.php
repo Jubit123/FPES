@@ -243,6 +243,7 @@ unset($_SESSION['quick_eval']);
                                     <th>Academic Year</th>
                                     <th>Status</th>
                                     <th>Submitted</th>
+                                    <th>Details</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -254,6 +255,7 @@ unset($_SESSION['quick_eval']);
                                         <td><?php echo htmlspecialchars($eval['academic_year']); ?></td>
                                         <td><span class="status-<?php echo $eval['status']; ?>"><?php echo ucfirst($eval['status']); ?></span></td>
                                         <td><?php echo date('M j, Y', strtotime($eval['submitted_at'])); ?></td>
+                                        <td><a href="view_evaluation.php?id=<?php echo (int)$eval['id']; ?>">View</a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
