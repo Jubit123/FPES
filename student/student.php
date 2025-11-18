@@ -88,7 +88,7 @@ unset($_SESSION['quick_eval']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - Faculty Performance Evaluation</title>
-    <link rel="icon" href="../img/loginlogo.png" type="image/png">
+    <link rel="icon" href="../img/loginlogo.png?v=2" type="image/png">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="student.css">
 </head>
