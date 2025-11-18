@@ -178,7 +178,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dean Dashboard - Faculty Performance Analytics</title>
-    <link rel="icon" href="../img/loginlogo.jpg" type="image/jpeg">
+    <link rel="icon" href="../img/loginlogo.png" type="image/png">
     <link rel="stylesheet" href="../styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
