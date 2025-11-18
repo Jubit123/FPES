@@ -127,7 +127,7 @@ unset($_SESSION['quick_eval']);
                 <h2>Evaluate Faculty Performance</h2>
                 <div class="evaluation-form-container">
                     <?php if ($evalOpen): ?>
-                    <form id="evaluation-form">
+                    <form id="evaluation-form" method="post" action="submit_evaluation.php">
                         <input type="hidden" name="csrf_token" value="<?php echo generateCSRFToken(); ?>">
                         <h3 class="section-title">Subject & Faculty Selection</h3>
 
