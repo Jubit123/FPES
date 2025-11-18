@@ -164,7 +164,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty Dashboard - Performance Evaluation</title>
-    <link rel="icon" href="../img/loginlogo.png" type="image/png">
+    <link rel="icon" href="../img/loginlogo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../student/student.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
