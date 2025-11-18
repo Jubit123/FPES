@@ -176,3 +176,36 @@ h1, h2 { color: var(--dark-color); margin-bottom: 1rem; font-weight: 600; }
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* Extra-small phones: tighten spacing and font sizes */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  .main-content {
+    padding: 1rem 0.75rem 1.5rem;
+  }
+  .sidebar {
+    width: 220px;
+  }
+  .sidebar-toggle {
+    margin: 0.5rem 0.75rem;
+  }
+  .search-container {
+    padding: 0.75rem;
+  }
+  .users-table th,
+  .users-table td,
+  .performance-table th,
+  .performance-table td,
+  .evaluations-table th,
+  .evaluations-table td,
+  .table th,
+  .table td {
+    padding: 0.5rem 0.4rem;
+    font-size: 0.8rem;
+  }
+}
