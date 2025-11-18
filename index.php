@@ -13,7 +13,7 @@ if (isLoggedIn()) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Faculty Performance Evaluation System - Login</title>
-  <link rel="icon" href="img/loginlogo.jpg" type="image/jpeg">
+  <link rel="icon" href="img/loginlogo.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -22,7 +22,7 @@ if (isLoggedIn()) {
     <div class="login-form" role="region" aria-labelledby="login-title">
       <!-- Institution Logo -->
       <div class="login-logo-wrap">
-        <img src="img/loginlogo.jpg" alt="Institution Logo" class="login-logo" />
+        <img src="img/loginlogo.png" alt="Institution Logo" class="login-logo" />
       </div>
       <h2 id="login-title" class="login-title">Login</h2>
       <hr class="divider" aria-hidden="true" />
