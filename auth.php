@@ -182,7 +182,7 @@ if ($action === 'logout') {
     exit();
 }
 
-// If not POST request, redirect to login (absolute path)
-header('Location: /FPES/index.php');
+// If not POST request, redirect to login
+header('Location: index.php');
 exit();
 ?>
