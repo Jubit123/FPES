@@ -2,14 +2,15 @@
 require_once '../config.php';
 requireRole('faculty');
 
-// This endpoint has been removed. Return 410 Gone.
-header('HTTP/1.1 410 Gone');
-header('Content-Type: text/plain; charset=UTF-8');
-echo 'The My Evaluations feature has been removed.';
-exit;
+// Validate ID from query string
+$evalId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if (!$evalId) {
+    http_response_code(404);
+    echo 'Evaluation not found.';
+    exit;
+}
 
 // Validate ID
-// Unreachable legacy code retained for reference below.
 
 // Load evaluation ensuring it belongs to the logged-in faculty
 $evaluation = null;
