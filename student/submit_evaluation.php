@@ -98,6 +98,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ensureEvaluationUniqueIndexes($pdo);
         }
 
+        // Ensure evaluation_responses.id is auto-incrementing primary key as well
+        try {
+            $pdo->exec("ALTER TABLE evaluation_responses MODIFY id INT AUTO_INCREMENT PRIMARY KEY");
+        } catch (PDOException $e) {
+            // Ignore if already auto-increment or lacking privileges
+        }
+
         // Start transaction
         $pdo->beginTransaction();
         
