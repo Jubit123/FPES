@@ -72,7 +72,7 @@ $adminDisplayName = $isSystemAdmin ? 'Admin' : ($admin['full_name'] ?? 'Admin');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - System Management</title>
-    <link rel="icon" href="../img/loginlogo.jpg" type="image/jpeg">
+    <link rel="icon" href="../img/loginlogo.png" type="image/png">
     <link rel="stylesheet" href="../styles.css">
     <style>
         .stats-grid {
