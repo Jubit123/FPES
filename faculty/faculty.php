@@ -948,6 +948,18 @@ try {
             });
         })();
     </script>
+
+    <script>
+      (function(){
+        var btn = document.getElementById('facultySidebarToggle');
+        var sidebar = document.querySelector('.sidebar');
+        if (btn && sidebar) {
+          btn.addEventListener('click', function(){
+            sidebar.classList.toggle('active');
+          });
+        }
+      })();
+    </script>
     <script>
       // Analytics: charts and filters
       let criteriaChart = null;
