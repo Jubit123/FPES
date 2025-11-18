@@ -126,15 +126,6 @@ h1, h2 { color: var(--dark-color); margin-bottom: 1rem; font-weight: 600; }
 /* Toggle */
 .sidebar-toggle { display: none; font-size: 1.5rem; cursor: pointer; margin-bottom: 1rem; background: none; border: none; color: var(--dark-color); }
 
-/* Mobile & small tablets: make sidebar off-canvas with a toggle. Desktop remains visible. */
-@media (max-width: 1024px) {
-  .dashboard { flex-direction: column; }
-  .sidebar { position: fixed; left: -250px; top: 0; height: 100%; width: 240px; }
-  .sidebar.active { left: 0; }
-  .main-content { padding: 1.25rem 1rem 1.75rem; }
-  .sidebar-toggle { display: block; }
-}
-
 /* Login form tweaks on small screens */
 @media (max-width: 768px) {
   .login-form {
