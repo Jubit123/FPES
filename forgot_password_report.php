@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Forgot Password</title>
-  <link rel="icon" href="img/loginlogo.png" type="image/png" />
+  <link rel="icon" href="img/loginlogo.jpg" type="image/jpeg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1 class="app-title">Faculty Performance Evaluation System</h1>
     <div class="login-form" role="region" aria-labelledby="forgot-title">
       <div class="login-logo-wrap">
-        <img src="img/loginlogo.png" alt="Institution Logo" class="login-logo" />
+        <img src="img/loginlogo.jpg" alt="Institution Logo" class="login-logo" />
       </div>
       <h2 id="forgot-title" class="login-title">Forgot Password</h2>
       <hr class="divider" aria-hidden="true" />
