@@ -195,7 +195,13 @@ function logout() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                // If server error or non-JSON response on Render, surface a clear message
+                if (!response.ok) {
+                    throw new Error('Server returned status ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     // Queue flash message and navigate to My Evaluations after reload
@@ -216,7 +222,7 @@ function logout() {
             .catch(error => {
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-message';
-                errorDiv.textContent = 'An error occurred. Please try again.';
+                errorDiv.textContent = 'Unable to submit evaluation: ' + (error.message || 'Please try again.');
                 evaluationForm.insertBefore(errorDiv, evaluationForm.firstChild);
             })
             .finally(() => {
