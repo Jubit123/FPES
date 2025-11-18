@@ -108,6 +108,7 @@ try {
   </style>
 </head>
 <body>
+  <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle navigation">☰ Menu</button>
   <div class="dashboard">
     <div class="sidebar">
       <h2>Admin Portal</h2>
@@ -202,6 +203,31 @@ try {
   </div>
 
   <script>
+    (function(){
+      var btn = document.getElementById('adminSidebarToggle');
+      var sidebar = document.querySelector('.sidebar');
+      if (btn && sidebar) {
+        btn.addEventListener('click', function(){
+          var isActive = sidebar.classList.toggle('active');
+          if (isActive) {
+            btn.classList.add('open');
+          } else {
+            btn.classList.remove('open');
+          }
+        });
+        // On small screens, hide sidebar after clicking any menu link
+        var links = sidebar.querySelectorAll('a');
+        links.forEach(function(link){
+          link.addEventListener('click', function(){
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove('active');
+              btn.classList.remove('open');
+            }
+          });
+        });
+      }
+    })();
+
     async function logout() {
       try {
         const res = await fetch('../auth.php', {
