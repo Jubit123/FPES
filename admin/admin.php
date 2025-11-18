@@ -290,6 +290,7 @@ $adminDisplayName = $isSystemAdmin ? 'Admin' : ($admin['full_name'] ?? 'Admin');
     </style>
 </head>
   <body>
+      <button class="sidebar-toggle" id="adminSidebarToggle" aria-label="Toggle navigation">☰ Menu</button>
       <div class="dashboard">
           <div class="sidebar">
               <h2>Admin Portal</h2>
@@ -560,6 +561,18 @@ $adminDisplayName = $isSystemAdmin ? 'Admin' : ($admin['full_name'] ?? 'Admin');
             <!-- Settings Section removed -->
         </div>
     </div>
+
+    <script>
+      (function(){
+        var btn = document.getElementById('adminSidebarToggle');
+        var sidebar = document.querySelector('.sidebar');
+        if (btn && sidebar) {
+          btn.addEventListener('click', function(){
+            sidebar.classList.toggle('active');
+          });
+        }
+      })();
+    </script>
 
     <!-- Add User Modal -->
     <div id="addUserModal" class="modal">
