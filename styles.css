@@ -97,8 +97,8 @@ h1, h2 { color: var(--dark-color); margin-bottom: 1rem; font-weight: 600; }
 .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,185,129,.22); }
 .btn-full { width: 100%; }
 .btn-outline { display:inline-block; color: var(--primary-dark); background: transparent; border: 2px solid var(--primary-color); padding: .55rem .9rem; border-radius: 10px; font-weight: 600; transition: var(--transition); text-decoration: none; }
-.btn-outline:hover { background: rgba(16,185,129,.08); box-shadow: 0 4px 12px rgba(16,185,129,.18); transform: translateY(-1px); }
-.btn-outline:focus { outline: none; box-shadow: 0 0 0 3px rgba(16,185,129,.25); }
+.btn-outline:hover { background: rgba(16,185,129,.08); box-shadow: 0 4px 12px rgba(102, 109, 3, 0.25); transform: translateY(-1px); }
+.btn-outline:focus { outline: none; box-shadow: 0 0 0 3px rgba(102, 109, 3, 0.25); }
 .btn-small { padding: .45rem .75rem; border-radius: 9px; font-size: .92rem; }
 .error-message { color: var(--danger-color); margin-bottom: 1rem; padding: 0.75rem; background-color: rgba(231, 76, 60, 0.08); border-radius: 10px; display: none; font-size: 0.9rem; }
 
