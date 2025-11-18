@@ -22,6 +22,20 @@ $stmt = $pdo->prepare("SELECT
 $stmt->execute([$_SESSION['faculty_id']]);
 $stats = $stmt->fetch();
 
+// Recent submitted evaluations for detail view
+$recent_evals = [];
+try {
+    $reStmt = $pdo->prepare("SELECT id, subject, semester, academic_year, overall_rating, submitted_at
+                              FROM evaluations
+                              WHERE faculty_id = ? AND status = 'submitted'
+                              ORDER BY submitted_at DESC
+                              LIMIT 20");
+    $reStmt->execute([$_SESSION['faculty_id']]);
+    $recent_evals = $reStmt->fetchAll();
+} catch (PDOException $e) {
+    $recent_evals = [];
+}
+
 // Get ratings by criteria
 $stmt = $pdo->prepare("SELECT ec.category, ec.criterion, AVG(er.rating) as avg_rating, COUNT(er.rating) as count
                        FROM evaluation_responses er
@@ -337,6 +351,36 @@ try {
                             <?php endforeach; ?>
                         </div>
                     <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+                
+                <?php if (!empty($recent_evals)): ?>
+                <div class="chart-container" style="margin-top:1.5rem;">
+                    <h3>Recent Evaluations</h3>
+                    <table class="evaluations-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Semester</th>
+                                <th>Academic Year</th>
+                                <th>Overall Rating</th>
+                                <th>Submitted</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recent_evals as $ev): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($ev['subject']); ?></td>
+                                    <td><?php echo htmlspecialchars($ev['semester']); ?></td>
+                                    <td><?php echo htmlspecialchars($ev['academic_year']); ?></td>
+                                    <td><?php echo $ev['overall_rating'] ? number_format($ev['overall_rating'], 2) : 'N/A'; ?></td>
+                                    <td><?php echo $ev['submitted_at'] ? date('M j, Y', strtotime($ev['submitted_at'])) : 'N/A'; ?></td>
+                                    <td><a href="evaluation_details.php?id=<?php echo (int)$ev['id']; ?>">View</a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
                 <?php endif; ?>
             </div>
