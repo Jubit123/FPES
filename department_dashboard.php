@@ -83,7 +83,7 @@ $colors = $dept_colors[$admin_department] ?? $dept_colors['Technology'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($admin_department); ?> Department Dashboard</title>
-    <link rel="icon" href="img/loginlogo.jpg" type="image/jpeg">
+    <link rel="icon" href="img/loginlogo.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
