@@ -86,6 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (PDOException $e) {
             // Ignore if already nullable or lacking privileges
         }
+        // Ensure id column is auto-incrementing primary key (important on Render where schema may differ)
+        try {
+            $pdo->exec("ALTER TABLE evaluations MODIFY id INT AUTO_INCREMENT PRIMARY KEY");
+        } catch (PDOException $e) {
+            // Ignore if already auto-increment or insufficient privileges
+        }
 
         // Ensure unique indexes exist (safe no-op if already present)
         if (function_exists('ensureEvaluationUniqueIndexes')) {
