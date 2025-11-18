@@ -380,6 +380,7 @@ $colors = $dept_colors[$admin_department] ?? $dept_colors['Technology'];
     </style>
 </head>
 <body>
+    <button class="sidebar-toggle" id="deptSidebarToggle" aria-label="Toggle navigation">☰ Menu</button>
     <div class="dashboard">
         <!-- Department Sidebar -->
         <div class="sidebar">
@@ -542,6 +543,17 @@ $colors = $dept_colors[$admin_department] ?? $dept_colors['Technology'];
     </div>
 
     <script>
+        (function(){
+            var btn = document.getElementById('deptSidebarToggle');
+            var sidebar = document.querySelector('.sidebar');
+            if (btn && sidebar) {
+                btn.addEventListener('click', function(){
+                    sidebar.classList.toggle('active');
+                });
+            }
+        })();
+
+        
         function logout() {
             fetch('auth.php', {
                 method: 'POST',
