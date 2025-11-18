@@ -101,7 +101,7 @@ try {
     }
     session_destroy();
 
-    echo json_encode(['success' => true, 'message' => 'Password changed successfully. Please log in again.', 'redirect' => '/FPES/index.php']);
+    echo json_encode(['success' => true, 'message' => 'Password changed successfully. Please log in again.', 'redirect' => 'index.php']);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Database error']);
 }
