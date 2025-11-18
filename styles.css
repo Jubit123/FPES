@@ -67,6 +67,8 @@ h1, h2 { color: var(--dark-color); margin-bottom: 1rem; font-weight: 600; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: none;
   min-height: 100vh;
   min-height: 100svh; /* mobile safe */
   text-align: center;
