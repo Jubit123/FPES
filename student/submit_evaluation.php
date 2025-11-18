@@ -152,12 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         $pdo->commit();
-        
-        echo json_encode([
-            'success' => true,
-            'message' => '✅ Evaluation submitted successfully. You cannot evaluate this faculty again for the same subject and period.'
-        ]);
-        
+
+        // After successful submission, return to the student dashboard
+        header('Location: student.php');
+        exit;
+
     } catch (Exception $e) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
