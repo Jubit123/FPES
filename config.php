@@ -83,7 +83,7 @@ function isLoggedIn() {
 
 function requireLogin() {
     if (!isLoggedIn()) {
-        header('Location: /FPES/index.php');
+        header('Location: index.php');
         exit();
     }
 }
@@ -95,7 +95,7 @@ function hasRole($role) {
 function requireRole($role) {
     requireLogin();
     if (!hasRole($role)) {
-        header('Location: /FPES/dashboard.php');
+        header('Location: dashboard.php');
         exit();
     }
 }
