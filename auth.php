@@ -14,73 +14,90 @@ if ($action === 'login') {
     // For students, this field will contain the Student ID
     $username = sanitizeInput($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
-    $role = sanitizeInput($_POST['role'] ?? '');
     
-    // For admins, role selection is optional. Require role only for student/faculty/dean.
+    // Username/ID and password are always required
     if (empty($username) || empty($password)) {
         echo json_encode(['success' => false, 'message' => 'Username and password are required']);
         exit();
     }
     
     try {
-        // First try database authentication
-        // Recognize Department Admin as a distinct login choice, but records remain role='admin' in DB
-        $deptAdminList = ['Technology', 'Education', 'Business'];
-        if ($role === 'student') {
-            // Match by Student ID for students
-            $stmt = $pdo->prepare("SELECT u.*, f.id as faculty_id, s.id as student_id 
-                                   FROM users u 
-                                   LEFT JOIN faculty f ON u.id = f.user_id 
-                                   LEFT JOIN students s ON u.id = s.user_id 
-                                   WHERE s.student_id = ? AND u.role = ?");
-            $stmt->execute([$username, $role]);
-        } elseif ($role === 'faculty') {
-            // Employees (Faculty): match by Employee ID
+        // Try to locate the user based on the provided identifier, without an explicit role from the form.
+        // Order of checks:
+        //  1) Student: match by students.student_id
+        //  2) Faculty: match by faculty.employee_id
+        //  3) Dean: match by deans.employee_id
+        //  4) Admin/Dept Admin: match by users.username (role='admin')
+
+        $authenticated = false;
+        $user = null;
+
+        // 1) Student by student_id
+        $stmt = $pdo->prepare("SELECT u.*, f.id as faculty_id, s.id as student_id 
+                               FROM users u 
+                               LEFT JOIN faculty f ON u.id = f.user_id 
+                               LEFT JOIN students s ON u.id = s.user_id 
+                               WHERE s.student_id = ? AND u.role = 'student'");
+        $stmt->execute([$username]);
+        $candidate = $stmt->fetch();
+        if ($candidate && password_verify($password, $candidate['password'])) {
+            $authenticated = true;
+            $user = $candidate;
+        }
+
+        // 2) Faculty by employee_id
+        if (!$authenticated) {
             $stmt = $pdo->prepare("SELECT u.*, f.id as faculty_id, s.id as student_id 
                                    FROM users u 
                                    INNER JOIN faculty f ON u.id = f.user_id 
                                    LEFT JOIN students s ON u.id = s.user_id 
-                                   WHERE f.employee_id = ? AND u.role = ?");
-            $stmt->execute([$username, $role]);
-        } elseif ($role === 'dean') {
-            // Employees (Deans): match by Employee ID in deans table
+                                   WHERE f.employee_id = ? AND u.role = 'faculty'");
+            $stmt->execute([$username]);
+            $candidate = $stmt->fetch();
+            if ($candidate && password_verify($password, $candidate['password'])) {
+                $authenticated = true;
+                $user = $candidate;
+            }
+        }
+
+        // 3) Dean by employee_id in deans table
+        if (!$authenticated) {
             $stmt = $pdo->prepare("SELECT u.*, f.id as faculty_id, s.id as student_id 
                                    FROM users u 
                                    LEFT JOIN faculty f ON u.id = f.user_id 
                                    LEFT JOIN students s ON u.id = s.user_id 
                                    INNER JOIN deans d ON u.id = d.user_id 
-                                   WHERE d.employee_id = ? AND u.role = ?");
-            $stmt->execute([$username, $role]);
-        } elseif ($role === 'department_admin') {
-            // Department Admins are stored as role='admin' but must belong to an academic department
-            $stmt = $pdo->prepare("SELECT u.*, f.id as faculty_id, s.id as student_id 
-                                   FROM users u 
-                                   LEFT JOIN faculty f ON u.id = f.user_id 
-                                   LEFT JOIN students s ON u.id = s.user_id 
-                                   WHERE u.username = ? AND u.role = 'admin' AND u.department IN ('Technology','Education','Business')");
+                                   WHERE d.employee_id = ? AND u.role = 'dean'");
             $stmt->execute([$username]);
-        } else {
-            // Admin path (role either 'admin' selected or omitted from form):
-            // Allow both system admins and department admins to log in by username.
+            $candidate = $stmt->fetch();
+            if ($candidate && password_verify($password, $candidate['password'])) {
+                $authenticated = true;
+                $user = $candidate;
+            }
+        }
+
+        // 4) Admin / Department Admin by username
+        if (!$authenticated) {
             $stmt = $pdo->prepare("SELECT u.*, f.id as faculty_id, s.id as student_id 
                                    FROM users u 
                                    LEFT JOIN faculty f ON u.id = f.user_id 
                                    LEFT JOIN students s ON u.id = s.user_id 
                                    WHERE u.username = ? AND u.role = 'admin'");
             $stmt->execute([$username]);
+            $candidate = $stmt->fetch();
+            if ($candidate && password_verify($password, $candidate['password'])) {
+                $authenticated = true;
+                $user = $candidate;
+            }
         }
-        $user = $stmt->fetch();
-        
-        $authenticated = false;
-        
-        if ($user && password_verify($password, $user['password'])) {
-            $authenticated = true;
+
+        if ($authenticated && $user) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['full_name'] = $user['full_name'];
             $_SESSION['department'] = $user['department'];
-            
+
             // Store role-specific IDs
             if ($user['role'] === 'faculty') {
                 $_SESSION['faculty_id'] = $user['faculty_id'];
@@ -110,35 +127,7 @@ if ($action === 'login') {
                     unset($_SESSION['is_department_admin']);
                 }
             } else {
-                // Non-admin users
-                if ($role === 'department_admin') {
-                    // Legacy path when the form explicitly posts department_admin
-                    $_SESSION['role'] = 'admin';
-                    $_SESSION['is_department_admin'] = 1;
-                } elseif (empty($role)) {
-                    // New path when role is empty (admin login by username)
-                    $stmt = $pdo->prepare("SELECT u.* 
-                                   FROM users u 
-                                   WHERE u.username = ? AND u.role = 'admin'");
-                    $stmt->execute([$username]);
-                    $user = $stmt->fetch();
-                    if ($user) {
-                        $_SESSION['user_id'] = $user['id'];
-                        $_SESSION['username'] = $user['username'];
-                        $_SESSION['role'] = $user['role'];
-                        $_SESSION['full_name'] = $user['full_name'];
-                        $_SESSION['department'] = $user['department'];
-                        $_SESSION['must_change_password'] = isset($user['must_change_password']) ? (int)$user['must_change_password'] : 0;
-                        $deptAdminDepts = ['Technology','Education','Business'];
-                        if (!empty($user['department']) && in_array($user['department'], $deptAdminDepts)) {
-                            $_SESSION['is_department_admin'] = 1;
-                        } else {
-                            unset($_SESSION['is_department_admin']);
-                        }
-                    }
-                } else {
-                    unset($_SESSION['is_department_admin']);
-                }
+                unset($_SESSION['is_department_admin']);
             }
             echo json_encode([
                 'success' => true, 
