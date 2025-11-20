@@ -29,17 +29,6 @@ if (isLoggedIn()) {
       <div id="login-error" class="error-message"></div>
 
       <form id="login-form">
-        <!-- Role Selection -->
-        <div class="form-group">
-          <label for="role">Role:</label>
-          <select id="role" name="role">
-            <option value="">-- Select Role --</option>
-            <option value="student">Student</option>
-            <option value="faculty">Faculty</option>
-            <option value="dean">Dean</option>
-          </select>
-        </div>
-
         <div class="form-group">
           <label for="username">Username/ID</label>
           <input type="text" id="username" name="username" placeholder="Enter your username or ID" autocomplete="username" required>
